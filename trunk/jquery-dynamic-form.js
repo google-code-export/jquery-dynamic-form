@@ -2,15 +2,14 @@
  * @author Stéphane Roucheray
  * @extends jQuery
  */
-
-jQuery.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
-	var source = jQuery(this),
-	minus = jQuery(minusElmnt),
-	plus = jQuery(plusElmnt),
+(function($){
+$.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
+	var source = $(this),
+	minus = $(minusElmnt),
+	plus = $(plusElmnt),
 	template = source.clone(true),
 	fieldId = 0,
 	formFields = "input, checkbox, select, textarea",
-	insertBefore = source.next(),
 	clones = [],
 	defaults = {
 		duration:1000
@@ -27,26 +26,26 @@ jQuery.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
 	
 	function normalizeElmnt(elmnt){
         elmnt.find(formFields).each(function(){
-            var nameAttr = jQuery(this).attr("name"), 
-			idAttr = jQuery(this).attr("id");
+            var nameAttr = $(this).attr("name"), 
+			idAttr = $(this).attr("id");
 
             /* Normalize field name attributes */
             if (!nameAttr) {
-				jQuery(this).attr("name", "field" + fieldId + "[]");
+				$(this).attr("name", "field" + fieldId + "[]");
 			}
 			
 			if (!/\[\]$/.exec(nameAttr)) {
-				jQuery(this).attr("name", nameAttr + "[]");
+				$(this).attr("name", nameAttr + "[]");
 			}
 			
             /* Normalize field id attributes */
             if (idAttr) {
 				/* Normalize attached label */
-				jQuery("label[for='"+idAttr+"']").each(function(){
-					jQuery(this).attr("for", idAttr + fieldId);
+				$("label[for='"+idAttr+"']").each(function(){
+					$(this).attr("for", idAttr + fieldId);
 				});
 				
-                jQuery(this).attr("id", idAttr + fieldId);
+                $(this).attr("id", idAttr + fieldId);
             }
             fieldId++;
         });
@@ -136,7 +135,7 @@ jQuery.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
 			/* On first add, normalize source */
 			if (clones.length == 0) {
 				normalizeElmnt(source);
-				jQuery(minusElmnt).show();
+				$(minusElmnt).show();
 			}
 			
 			/* Clone template and normalize it */
@@ -171,10 +170,12 @@ jQuery.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
 				}
 			}
 			if (clones.length == 0) {
-				jQuery(minusElmnt).hide();
+				$(minusElmnt).hide();
 			}
 			plus.show();
 		});
 	}
 	
+	return source;
 };
+})(jQuery);
