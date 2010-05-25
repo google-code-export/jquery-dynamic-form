@@ -1,7 +1,7 @@
 /**
  * @author Stéphane Roucheray
  * @extends jQuery
- * @version 0.2
+ * @version 0.3
  */
 (function($){
 $.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
