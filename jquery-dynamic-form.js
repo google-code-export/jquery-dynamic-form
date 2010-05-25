@@ -109,7 +109,7 @@ $.fn.dynamicForm = function (plusElmnt, minusElmnt, options){
 			
 				this.removableClone.remove();
 			}
-			clones.splice(clones.indexOf(this.removableClone),1);
+			clones.splice($.inArray(this.removableClone, clones),1);
 			if (clones.length == 0){
 				source.find(plusElmnt).show();
 			}else{
