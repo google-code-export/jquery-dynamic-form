@@ -29,6 +29,23 @@
 		<script type="text/javascript" src="jquery-dynamic-form.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
+				
+				//Activate the main dynamic form
+				var mainDynamicForm = $("#people").dynamicForm("#plus", "#minus", {
+					limit:5, 
+					formPrefix:"mainForm",
+					afterClone:function(clone){
+						console.log("I'm a clone", clone);
+					},
+					createColor:"green"
+				});
+			
+				//Activate two nested dynamic form
+				$("#phoneTemplate").dynamicForm("#plus5", "#minus5", {limit:5, formPrefix:"mainPhone"});
+				$("#phone2Template").dynamicForm("#plus6", "#minus6", {limit:5,
+					createColor:"red"});
+				
+				//Defines data to be injected in the form
 				var data = [
 					{
 						"adr" : "A",
@@ -76,21 +93,8 @@
 						],
 					}
 				];
-			
-				var mainDynamicForm = $("#people").dynamicForm("#plus", "#minus", {
-					limit:5, 
-					formPrefix:"mainForm",
-					afterClone:function(clone){
-						console.log("I'm a clone", clone);
-					},
-					createColor:"green"
-				});
-			
-				$("#phoneTemplate").dynamicForm("#plus5", "#minus5", {limit:5, formPrefix:"mainPhone"});
-				$("#phone2Template").dynamicForm("#plus6", "#minus6", {limit:5,
-					createColor:"red"});
 				
-				
+				//Inject the data in the main form for prefilling
 				mainDynamicForm.inject(data);
 			});
 		</script>
