@@ -18,6 +18,9 @@
 			form p > input{
 				float: left;
 			}
+			form p > textarea{
+				float: left;
+			}
 			span.inline{
 				display:inline;
 				clear:none;
@@ -57,12 +60,13 @@
 							{"phone":"3", "phoneType":"perso"}
 						],
 						"phone2Template" :[
-							{"phone2":"bar", "phonePro":true},
+							{"phone2":"bar", "phonePro":true, more_info:"This is filled with more informations"},
 							{"phone2":"foo"},
 							{"phone2":"baz"}
 						],
 					},
 					{
+						"state" : "US",
 						"adr" : "X",
 						"postal_code" : "Y",
 						"ville" : "Z",
@@ -78,6 +82,7 @@
 						],
 					},
 					{
+						"state" : "United States",
 						"adr" : "O",
 						"postal_code" : "P",
 						"ville" : "Q",
@@ -138,6 +143,15 @@ formatForm($_POST, -1);
 				<fieldset id="people">
 					
 				<legend> Address</legend>
+				<p><label for="state">state : </label>
+				<select id="state" name="state" size="1">
+				  <option value="France">France</option>
+				  <option value="Italy">Italy</option>
+				  <option value="Brazil">Brazil</option>
+				  <option value="Morocco">Morocco</option>
+				  <option value="China">China</option>
+				  <option value="US">United States</option>
+				</select></p>
 				<p><label for="address">address : </label><input id="address" type="text" name="adr" size="30"></p>
 				<p><label for="postal">postal code : </label><input id="postal" type="text" name="postal_code" size="10"></p>
 				<p><label for="city">city : </label><input id="city" type="text" name="ville" size="50"></p>
@@ -150,7 +164,8 @@ formatForm($_POST, -1);
 				<p><span><a id="minus5" href="">[-]</a> <a id="plus5" href="">[+]</a></span></p>
 				
 				<p id='phone2Template'><label for="phone2">telephone 2 : </label><input id="phone2" type="text" name="phone2" size="50"><br />
-				   <label for="professionnal">Professional ?</label><input id="professionnal" type="checkbox" value="pro" name="phonePro" /> 
+				   <label for="professionnal">Professional ?</label><input id="professionnal" type="checkbox" value="pro" name="phonePro" /> <br />
+				   <label for="more_info">More info</label><textarea id="more_info" name="more_info"> </textarea>
 				   <span style="clear:none; float:right;"><a id="minus6" href="">[-]</a> <a id="plus6" href="">[+]</a></span></p>
 				<p></p>
 
