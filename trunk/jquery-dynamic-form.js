@@ -18,7 +18,7 @@
  * @see Author's Blog : http://sroucheray.org
  * @see Follow author : http://twitter.com/sroucheray
  * @extends jQuery (requires at version >= 1.4)
- * @version 1.0
+ * @version 1.0.1
  */
 (function($){
 /**
@@ -36,7 +36,9 @@
  *     
  *     createColor {String} : color effect when duplicating (requires jQuery UI Effects module)
  *     removeColor {String} : color effect when removing duplicate (idem)
- *     duration    {Number} : color effect duration (idem) 
+ *     duration    {Number} : color effect duration (idem)
+ *     
+ *     data        {Object} : A JSON based representation of the data which will prefill the form (equivalent of the inject method)
  *     
  */
 $.fn.dynamicForm = function (plusSelector, minusSelector, options){
@@ -453,7 +455,9 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 				$.each(formValue, function(index, value){
 					if($.isArray(value)){
 						mainForm = clone.find("#"+index);
-						$.each(value, jQuery.proxy( fillData, mainForm.get(0).getSource()));
+						if(typeof mainForm.get(0).getSource === "function"){
+							$.each(value, jQuery.proxy( fillData, mainForm.get(0).getSource()));
+						}
 
 					}else{
 						var formElements = mainForm.getSource().getClones()[formIndex].find("[origname='"+index+"']");
@@ -467,6 +471,17 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 								}else{
 									formElements.attr("value", value);
 								}
+							}else if(formElements.get(0).tagName.toLowerCase() == "textarea"){
+								/* Fill in textarea */
+								formElements.text(value);
+							}else if(formElements.get(0).tagName.toLowerCase() == "select"){
+								/* Fill in select */
+								$(formElements.get(0)).find("option").each(function(){
+									console.log($(this).text(),  value, $(this).text() == value);
+									if($(this).text() == value || $(this).attr("value") == value){
+										$(this).attr("selected", "selected");
+									}
+								});
 							}
 						}
 					}
@@ -478,6 +493,11 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 	});
 	
 	template = source.clone(true);
+	
+	if(options.data){
+		source.inject(options.data);
+	}
+	
 	return source;
 };
 })(jQuery);
