@@ -18,7 +18,7 @@
  * @see Author's Blog : http://sroucheray.org
  * @see Follow author : http://twitter.com/sroucheray
  * @extends jQuery (requires at version >= 1.4)
- * @version 1.0.1
+ * @version 1.0.2
  */
 (function($){
 /**
@@ -173,7 +173,6 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 		if (clones.length === 0) {
 			minus.show();
 		}
-		console.log(extraParams);
 		clone = cloneTemplate(extraParams);
 		
 		if (options.limit && (options.limit - 3) < clones.length) {
@@ -363,7 +362,6 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 		normalizeSubClone(source, formPrefix, 0);
 	}
 	if(isMainForm && options.normalizeFullForm && !options.isInAClone){
-		console.log(isMainForm, options.normalizeFullForm);
 		//Normalize all forms outside duplicated template in order to ease server-side parsing
 		$(this).parentsUntil("form").each(function(){
 			var theForm = $(this).parent().get(0);
@@ -456,7 +454,7 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 					if($.isArray(value)){
 						mainForm = clone.find("#"+index);
 						if(typeof mainForm.get(0).getSource === "function"){
-							$.each(value, jQuery.proxy( fillData, mainForm.get(0).getSource()));
+							$.each(value, $.proxy( fillData, mainForm.get(0).getSource()));
 						}
 
 					}else{
@@ -477,7 +475,6 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 							}else if(formElements.get(0).tagName.toLowerCase() == "select"){
 								/* Fill in select */
 								$(formElements.get(0)).find("option").each(function(){
-									console.log($(this).text(),  value, $(this).text() == value);
 									if($(this).text() == value || $(this).attr("value") == value){
 										$(this).attr("selected", "selected");
 									}
@@ -488,7 +485,7 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 				});
 			}
 			//Loop over each form
-			$.each(data, jQuery.proxy( fillData, source ));
+			$.each(data, $.proxy( fillData, source ));
 		}
 	});
 	
