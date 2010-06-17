@@ -18,7 +18,7 @@
  * @see Author's Blog : http://sroucheray.org
  * @see Follow author : http://twitter.com/sroucheray
  * @extends jQuery (requires at version >= 1.4)
- * @version 1.0.2
+ * @version 1.0.3
  */
 (function($){
 /**
@@ -76,7 +76,8 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 	 */
 	function cloneTemplate(disableEffect){
 		var clone, callBackReturn;
-		clone = template.clone(true);
+		clone = template.cloneWithAttribut(true);
+		
 		if (typeof options.afterClone === "function") {
 			callBackReturn = options.afterClone(clone);
 		}
@@ -180,6 +181,7 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 		}
 		
 		clones.push(clone);
+		
 		normalizeClone(clone, clones.length);
 		
 		dynamiseSubClones(clone);
@@ -281,7 +283,6 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 			idAttr = that.attr("id"),
 			newIdAttr = idAttr.slice(0,-1) + index,
 			match = matchRegEx.exec(nameAttr);
-			
 			that.attr("name", match[1]+index+match[3]);
 			
 			if (idAttr) {
@@ -303,7 +304,6 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 			idAttr = that.attr("id"),
 			newIdAttr = idAttr + index,
 			match = matchRegEx.exec(nameAttr);
-			
 			that.attr("name", match[1]+"["+formPrefix+"]"+"["+index+"]"+"["+match[2]+"]");
 			
 			if (idAttr) {
@@ -489,7 +489,7 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 		}
 	});
 	
-	template = source.clone(true);
+	template = source.cloneWithAttribut(true);
 	
 	if(options.data){
 		source.inject(options.data);
@@ -497,4 +497,26 @@ $.fn.dynamicForm = function (plusSelector, minusSelector, options){
 	
 	return source;
 };
+
+/**
+ * jQuery original clone method decorated in order to fix an IE < 8 issue
+ * where attributs especially name are not copied 
+ */
+jQuery.fn.cloneWithAttribut = function( withDataAndEvents ){
+	if ( jQuery.support.noCloneEvent ){
+		return $(this).clone(withDataAndEvents);
+	}else{
+		$(this).find("*").each(function(){
+			$(this).data("name", $(this).attr("name"));
+		});
+		var clone = $(this).clone(withDataAndEvents);
+		
+		clone.find("*").each(function(){
+			$(this).attr("name", $(this).data("name"));
+		});
+		
+		return clone;
+	}
+};
+
 })(jQuery);

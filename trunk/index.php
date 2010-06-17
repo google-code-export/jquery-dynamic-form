@@ -27,6 +27,14 @@
 			}
 			
 		</style>
+		<script type="text/javascript" src="https://getfirebug.com/firebug-lite.js">
+		{
+			overrideConsole: false,
+			startOpened: true,
+			enableTrace: true
+		}
+
+		</script>
 		<script type="text/javascript" src="lib/jquery/jquery-1.4.2.js"></script>
 		<script type="text/javascript" src="lib/jquery/jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="jquery-dynamic-form.js"></script>
@@ -38,7 +46,9 @@
 					limit:5, 
 					formPrefix:"mainForm",
 					afterClone:function(clone){
-						console.log("I'm a clone", clone);
+						if(window.console && window.console.log){
+							console.log("I'm a clone", clone);
+						}
 					},
 					createColor:"green"
 				});
@@ -63,7 +73,7 @@
 							{"phone2":"bar", "phonePro":true, more_info:"This is filled with more informations"},
 							{"phone2":"foo"},
 							{"phone2":"baz"}
-						],
+						]
 					},
 					{
 						"state" : "US",
@@ -79,7 +89,7 @@
 							{"phone2":"bar1"},
 							{"phone2":"foo2"},
 							{"phone2":"baz3"}
-						],
+						]
 					},
 					{
 						"state" : "United States",
@@ -95,7 +105,7 @@
 							{"phone2":"bar4"},
 							{"phone2":"foo5"},
 							{"phone2":"baz6"}
-						],
+						]
 					}
 				];
 				
